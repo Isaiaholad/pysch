@@ -49,6 +49,8 @@ def posix_shell(chan):
 
         while True:
             r, w, e = select.select([chan, sys.stdin], [], [])
+            wat = fcntl.ioctl(r[0].fileno(), termios.FIONREAD, "  ")
+            doublewat = struct.unpack('h', wat)[0]
             if chan in r:
                 try:
                     x = u(chan.recv(1024))
@@ -60,7 +62,7 @@ def posix_shell(chan):
                 except socket.timeout:
                     pass
             if sys.stdin in r:
-                x = sys.stdin.read(1)
+                x = sys.stdin.read(doublewat)
                 if len(x) == 0:
                     break
                 chan.send(x)
