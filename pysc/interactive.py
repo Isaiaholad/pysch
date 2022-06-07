@@ -19,6 +19,8 @@
 
 import socket
 import sys
+import fcntl
+import struct
 from paramiko.py3compat import u
 
 # windows does not have termios...
