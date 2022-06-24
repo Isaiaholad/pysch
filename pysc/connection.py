@@ -5,6 +5,9 @@ from inventory import Inventory
 import paramiko
 from pykeepass import PyKeePass
 import interactive
+from common import get_local_terminal_size, get_local_terminal_type
+
+import os
 
 logger = log_config.get_logger(__name__)
 
@@ -49,6 +52,10 @@ class SSHConnection():
                 logger.debug(item)
                 logger.debug(config)
                 config = config[item]
+
+        # temporary workaround
+        if 'key_filename' in config.keys():
+            config.pop('key_filename')
         
         # paramiko.SSHClient()
         # hostname,
@@ -97,13 +104,27 @@ class SSHConnection():
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
         # logger.info('connecting to '+self.config['hostname'])
         logger.info('connecting to '+self.config['hostname'])
+        # TODO: deal with BadHostKeyException
+        # better to check it in advance even
+        # client.load_system_host_keys
+        # paramiko.HostKeys maybe
         client.connect(**self.config)
 
         t = client.get_transport()
         channel = t.open_session()
 
-        channel.get_pty()
-        channel.invoke_shell()
+        # local_terminal_size = os.get_terminal_size()
+        # local_terminal_type = os.getenv('TERM')
+
+        try:
+            channel.get_pty(
+                get_local_terminal_type(),
+                *get_local_terminal_size()
+            )
+            channel.invoke_shell()
+        except Exception as err:
+            logger.error(str(err))
+            sys.exit(1)
 
         interactive.interactive_shell(channel)
 

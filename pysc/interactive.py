@@ -23,6 +23,8 @@ import fcntl
 import struct
 from paramiko.py3compat import u
 
+from common import get_local_terminal_size
+
 # windows does not have termios...
 try:
     import termios
@@ -50,6 +52,10 @@ def posix_shell(chan):
         chan.settimeout(0.0)
 
         while True:
+            if not chan.closed:
+                chan.resize_pty(
+                    *get_local_terminal_size()
+                )
             r, w, e = select.select([chan, sys.stdin], [], [])
             wat = fcntl.ioctl(r[0].fileno(), termios.FIONREAD, "  ")
             doublewat = struct.unpack('h', wat)[0]
