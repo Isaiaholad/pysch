@@ -44,8 +44,8 @@ class SSHConnection():
         inventory = Inventory('../inventory.yaml')
         item_path = self.target.split('/')
         logger.debug(item_path)
-        logger.debug(self.target.split('@'))
-        logger.debug(inventory.inventory_dict)
+        # logger.debug(self.target.split('@'))
+        # logger.debug(inventory.inventory_dict)
         config = inventory.inventory_dict[item_path[0]]
         if len(item_path) > 1:
             for item in item_path[1:]:
@@ -107,7 +107,7 @@ class SSHConnection():
         # TODO: deal with BadHostKeyException
         # better to check it in advance even
         # client.load_system_host_keys
-        # paramiko.HostKeys maybe
+        # paramiko.HostKeys
         client.connect(**self.config)
 
         t = client.get_transport()
