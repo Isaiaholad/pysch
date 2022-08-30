@@ -12,7 +12,7 @@ def get_local_terminal_type():
 def flatten_log_msg(msg):
     return str(msg).replace('\n', ', ')
 
-def singlton(cls):
+def singlton_class(cls):
     instance = None
 
     @functools.wraps(cls)

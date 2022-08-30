@@ -24,7 +24,7 @@ import fcntl
 import struct
 from paramiko.py3compat import u
 
-from common import get_local_terminal_size
+from common import get_local_terminal_size, flatten_log_msg
 
 # windows does not have termios...
 try:
@@ -66,7 +66,7 @@ def posix_shell(chan):
                     try:
                         x = u(chan.recv(1024))
                     except UnicodeDecodeError as e:
-                        logger.debug(str(e))
+                        logger.debug(flatten_log_msg(e))
                     # A:i80dcgw1# Traceback (most recent call last):
                     # File "/home/ivan/dev/pysc/pysc/./pysc.py", line 12, in <module>
                     #     main()

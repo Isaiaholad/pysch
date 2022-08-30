@@ -1,5 +1,6 @@
 import sys
 import os
+from typing import List
 import log_config
 import logging
 from common import flatten_log_msg
@@ -14,7 +15,7 @@ logger = log_config.get_logger(__name__)
 
 class Inventory():
 
-    def __init__(self, inventory_file) -> None:
+    def __init__(self, inventory_file='../inventory.yaml') -> None:
         # inventory_path = os.path.abspath(inventory_file)
         inventory_path = os.path.expanduser(inventory_file)
         # yaml.
@@ -32,6 +33,36 @@ class Inventory():
                 self.hosts.append(item)
             elif isinstance(self.inventory_dict[item], list):
                 self.groups.append(item)
+
+        self._flat = self._flatten()
+
+    def _flatten(self) -> List:
+        flattened_dict = []
+        def do_flat(d, prefix=''):
+            new_prefix = prefix
+            for k in d:
+                if 'hostname' in d[k].keys():
+                    # print('prefix: ', new_prefix)
+                    # print('h-'+k)
+                    # print(prefix+'--'+k)
+                    flattened_dict.append(prefix+k)
+                    # print(new_prefix+k)
+                else:
+                    new_prefix += k+'/'
+                    # print('call for: '+new_prefix)
+                    # return do_flat(d[k], prefix=new_prefix)
+                    # flattened_dict.append(do_flat(d[k], prefix=new_prefix))
+                    do_flat(d[k], prefix=new_prefix)
+                    # print(do_flat(d[k], prefix=new_prefix))
+                    new_prefix = prefix
+            return flattened_dict
+        return do_flat(self.inventory_dict)
+
+    @property
+    def flat(self):
+        return self._flat
+        
+        
 
 if __name__ == '__main__':
     # inv = Inventory('/Users/ivanb/dev/pyssh/inventory.yaml')

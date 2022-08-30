@@ -1,14 +1,14 @@
 import sys
-from common import singlton, flatten_log_msg
+from common import singlton_class, flatten_log_msg
 
 from yaml import load as yaml_load
 
-from pysc.common import flatten_log_msg
+from common import flatten_log_msg
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
-@singlton
+@singlton_class
 class Config():
 
     def __init__(self, filename) -> None:
