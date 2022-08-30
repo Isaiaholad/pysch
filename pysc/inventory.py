@@ -12,10 +12,11 @@ except ImportError:
     from yaml import Loader as YamlLoader
 
 logger = log_config.get_logger(__name__)
+console_logger = log_config.get_logger('console_logger')
 
 class Inventory():
 
-    def __init__(self, inventory_file='../inventory.yaml') -> None:
+    def __init__(self, inventory_file) -> None:
         # inventory_path = os.path.abspath(inventory_file)
         inventory_path = os.path.expanduser(inventory_file)
         # yaml.
@@ -23,7 +24,8 @@ class Inventory():
             with open(inventory_path, 'r') as f:
                 self.inventory_dict = yaml_load(f, YamlLoader)
         except Exception as e:
-            logger.error(flatten_log_msg(e))
+            console_logger.error(flatten_log_msg(e))
+            console_logger.error('Exiting')
             sys.exit(1)
 
         self.hosts = []
@@ -42,18 +44,10 @@ class Inventory():
             new_prefix = prefix
             for k in d:
                 if 'hostname' in d[k].keys():
-                    # print('prefix: ', new_prefix)
-                    # print('h-'+k)
-                    # print(prefix+'--'+k)
                     flattened_dict.append(prefix+k)
-                    # print(new_prefix+k)
                 else:
                     new_prefix += k+'/'
-                    # print('call for: '+new_prefix)
-                    # return do_flat(d[k], prefix=new_prefix)
-                    # flattened_dict.append(do_flat(d[k], prefix=new_prefix))
                     do_flat(d[k], prefix=new_prefix)
-                    # print(do_flat(d[k], prefix=new_prefix))
                     new_prefix = prefix
             return flattened_dict
         return do_flat(self.inventory_dict)
@@ -64,9 +58,9 @@ class Inventory():
         
         
 
-if __name__ == '__main__':
-    # inv = Inventory('/Users/ivanb/dev/pyssh/inventory.yaml')
-    inv = Inventory('../inventory.yaml')
+# if __name__ == '__main__':
+#     # inv = Inventory('/Users/ivanb/dev/pyssh/inventory.yaml')
+#     inv = Inventory('../inventory.yaml')
     # print(inv.groups)
 
 #     from pprint import PrettyPrinter

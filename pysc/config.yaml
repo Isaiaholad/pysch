@@ -1,15 +1,18 @@
+inventory_file: inventory.yaml
 logging:
   version: 1
   formatters:
     simple:
-      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      # format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      format: '%(levelname)s - %(message)s'
     pysc_default:
       format: '%(asctime)s [%(levelname)s] %(name)s (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s'
   handlers:
     console:
       class: logging.StreamHandler
       level: DEBUG
-      formatter: pysc_default
+      # formatter: pysc_default
+      formatter: simple
       stream: ext://sys.stdout
     log_file:
       class: logging.FileHandler
@@ -17,11 +20,11 @@ logging:
       formatter: pysc_default
       filename: pysc.log
       
-  # loggers:
-  #   simpleExample:
-  #     level: DEBUG
-  #     handlers: [console]
-  #     propagate: no
+  loggers:
+    console_logger:
+      level: DEBUG
+      handlers: [console]
+      propagate: no
   root:
     level: DEBUG
     handlers: [log_file]
