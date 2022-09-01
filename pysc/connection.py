@@ -83,7 +83,7 @@ class SSHConnection():
 
     def __get_credentials(self):
         try:
-            pwd_db = PyKeePass('../pwd_db.kdbx', password='Zcjr_Btk_r8wLN)iQ{0cy')
+            pwd_db = PyKeePass('../pwd_db.kdbx', keyfile='pwddb.keyx')
         except FileNotFoundError as e:
             logger.error(e)
             # logger.exception(e)

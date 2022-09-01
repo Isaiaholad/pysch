@@ -1,4 +1,5 @@
 import sys
+import os.path
 from common import singlton_class, flatten_log_msg
 
 from yaml import load as yaml_load
@@ -26,14 +27,37 @@ class Config():
             console_logger.error('Exiting')
             sys.exit(1)
 
+        for fname in (
+            'inventory_file',
+            'keepass_db_file',
+            'keepass_key_file'
+        ):
+            if fname not in self.conf_dict.keys():
+                console_logger.error(
+                    '{} is not configured. Exiting.'.format(fname)
+                )
+                sys.exit(1)
+
         for k, v in self.conf_dict.items():
             setattr(self, k, v)
 
-    @property
-    def inventory(self):
-        if not hasattr(self, '_inventory'):
-            self._inventory = Inventory(self.inventory_file)
-        return self._inventory
+        for fname in (
+            self.inventory_file,
+            self.keepass_db_file,
+            self.keepass_key_file
+        ):
+            if not os.path.exists(fname):
+                console_logger.error(
+                    'File {} not found. Exiting'.format(fname)
+                )
+                sys.exit(1)
+
+
+    # @property
+    # def inventory(self):
+    #     if not hasattr(self, '_inventory'):
+    #         self._inventory = Inventory(self.inventory_file)
+    #     return self._inventory
 
     def get_node_config(self, node_name) -> dict:
         pass

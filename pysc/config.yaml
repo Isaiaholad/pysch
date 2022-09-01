@@ -1,4 +1,6 @@
-inventory_file: inventory.yaml
+inventory_file: ../inventory.yaml
+keepass_db_file: ../pwd_db.kdbx
+keepass_key_file: pwddb.keyx
 logging:
   version: 1
   formatters:

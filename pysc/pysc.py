@@ -4,6 +4,7 @@ import sys
 import commands
 import click
 
+from cli import PyscCLI
 from inventory import Inventory
 
 @click.group()
@@ -14,18 +15,15 @@ def cli():
 # @click.argument('host', type=click.Choice(['rtc/i79dcgw1', '192.168.0.1', 'tele2/nin3-vsc1']))
 @click.argument('host')
 def connect(host):
-    click.echo('Connecting to the host')
-    
-    commands.connect(host)
+    click.echo('Connecting to the {}'.format(host))
+    pysc_cli = PyscCLI()
+    pysc_cli.connect(host)
+    # commands.connect(host)
 
 @cli.command(help='Get list of hosts')
 def list_hosts():
-    # click.echo('Get list of hosts')
-    inv = Inventory()
-    # print(inv.flatten())
-    # print(inv.flat)
-    for host in inv.flat:
-        print(host)
+    pysc_cli = PyscCLI()
+    pysc_cli.list_hosts()
 
 @cli.command(help='Get list of credendials')
 def list_credentials():
