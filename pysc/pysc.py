@@ -16,18 +16,21 @@ def cli():
 @click.argument('host')
 def connect(host):
     click.echo('Connecting to the {}'.format(host))
-    pysc_cli = PyscCLI()
-    pysc_cli.connect(host)
+    PyscCLI().connect(host)
+    # pysc_cli = PyscCLI()
+    # pysc_cli.connect(host)
     # commands.connect(host)
 
 @cli.command(help='Get list of hosts')
 def list_hosts():
-    pysc_cli = PyscCLI()
-    pysc_cli.list_hosts()
+    PyscCLI().list_hosts()
+    # pysc_cli = PyscCLI()
+    # pysc_cli.list_hosts()
 
 @cli.command(help='Get list of credendials')
 def list_credentials():
     click.echo('Get list of credendials')
+    PyscCLI().list_credentials()
 
 def main():
     cli()

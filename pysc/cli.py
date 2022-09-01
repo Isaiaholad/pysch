@@ -57,7 +57,8 @@ class PyscCLI():
             print(host)
 
     def list_credentials(self) -> List:
-        pass
+        for entry in self.pwddb.entries:
+            print(entry)
 
     def connect(self, target_host):
         self.target_host = target_host
