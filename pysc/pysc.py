@@ -23,13 +23,14 @@ def connect(host):
 
 @cli.command(help='Get list of hosts')
 def list_hosts():
+    click.echo('Available hosts:')
     PyscCLI().list_hosts()
     # pysc_cli = PyscCLI()
     # pysc_cli.list_hosts()
 
 @cli.command(help='Get list of credendials')
 def list_credentials():
-    click.echo('Get list of credendials')
+    click.echo('Available credentials:')
     PyscCLI().list_credentials()
 
 def main():
