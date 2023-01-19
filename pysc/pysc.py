@@ -1,11 +1,10 @@
 #/usr/bin/env python3
 
 import sys
-import commands
 import click
 
-from cli import PyscCLI
-from inventory import Inventory
+from .cli import PyscCLI
+from .inventory import Inventory
 
 @click.group()
 def cli():
@@ -19,7 +18,6 @@ def connect(host):
     PyscCLI().connect(host)
     # pysc_cli = PyscCLI()
     # pysc_cli.connect(host)
-    # commands.connect(host)
 
 @cli.command(help='Get list of hosts')
 def list_hosts():
@@ -33,12 +31,5 @@ def list_credentials():
     click.echo('Available credentials:')
     PyscCLI().list_credentials()
 
-def main():
-    cli()
-
-    # if len(sys.argv) == 3:
-    #     if sys.argv[1] == 'connect':
-    #         commands.connect(sys.argv[2])
-
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

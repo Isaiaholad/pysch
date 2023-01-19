@@ -1,9 +1,9 @@
 import sys
 import os
 from typing import List
-import log_config
+from .log_config import get_logger
 import logging
-from common import flatten_log_msg
+from .common import flatten_log_msg
 
 from yaml import load as yaml_load
 try:
@@ -11,8 +11,8 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-logger = log_config.get_logger(__name__)
-console_logger = log_config.get_logger('console_logger')
+logger = get_logger(__name__)
+console_logger = get_logger('console_logger')
 
 class Inventory():
 

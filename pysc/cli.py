@@ -6,11 +6,11 @@ import paramiko
 from pykeepass import PyKeePass
 from pykeepass.exceptions import CredentialsError
 
-from config import Config
-from inventory import Inventory
-from interactive import interactive_shell
-from log_config import get_logger
-from common import get_local_terminal_size, get_local_terminal_type
+from .config import Config
+from .inventory import Inventory
+from .interactive import interactive_shell
+from .log_config import get_logger
+from .common import get_local_terminal_size, get_local_terminal_type
 
 console_logger = get_logger('console_logger')
 

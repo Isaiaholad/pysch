@@ -24,7 +24,7 @@ import fcntl
 import struct
 from paramiko.py3compat import u
 
-from common import get_local_terminal_size, flatten_log_msg
+from .common import get_local_terminal_size, flatten_log_msg
 
 # windows does not have termios...
 try:

@@ -1,15 +1,16 @@
 import re
 import sys
-import log_config
-from inventory import Inventory
 import paramiko
 from pykeepass import PyKeePass
-import interactive
-from common import get_local_terminal_size, get_local_terminal_type
+
+from .interactive import interactive_shell
+from .inventory import Inventory
+from .log_config import get_logger
+from .common import get_local_terminal_size, get_local_terminal_type
 
 import os
 
-logger = log_config.get_logger(__name__)
+logger = get_logger(__name__)
 
 _re_raw_ssh = re.compile(r'([\d\w\.\-_]+)@([\d\w\.\-_]+)')
 # _re_inventory_ssh = re.compile(r'((([\w\d\.\-_]+)/?)+)')
@@ -126,7 +127,7 @@ class SSHConnection():
             logger.error(str(err))
             sys.exit(1)
 
-        interactive.interactive_shell(channel)
+        interactive_shell(channel)
 
         # print(channel.getpeername())
         # print(channel.active)

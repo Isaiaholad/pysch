@@ -10,9 +10,10 @@ setup(
     package_dir = {'pysc': 'pysc'},
     package_data = {},
     packages = find_packages(),
-    scripts = ['pysc.py'],
+    entry_points = {
+        'console_scripts': [
+            'pysc = pysc.pysc:cli',
+        ],
+    },
     install_requires = ['paramiko', 'pykeepass', 'pyyaml', 'click'],
 )
-
-# python keepass ssh connection manager
-# pkscm pysch pyshch pysshch pysch
