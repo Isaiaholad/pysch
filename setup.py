@@ -3,16 +3,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'pysc',
+    name = 'pysch',
     version = '0.1',
     description = '',
-    py_modules =['pysc'],
-    package_dir = {'pysc': 'pysc'},
+    py_modules =['pysch'],
+    package_dir = {'pysch': 'pysch'},
     package_data = {},
     packages = find_packages(),
     entry_points = {
         'console_scripts': [
-            'pysc = pysc.pysc:cli',
+            'pysch = pysc.pysc:cli',
         ],
     },
     install_requires = ['paramiko', 'pykeepass', 'pyyaml', 'click'],
