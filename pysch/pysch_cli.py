@@ -5,7 +5,6 @@ import sys
 from typing import List
 
 import paramiko
-import pykeepass
 
 from .common import (
     get_local_terminal_size,
@@ -13,6 +12,7 @@ from .common import (
     DEFAULT_CONFIG_FILE,
 )
 from .config import Config
+from .credentials import Credentials
 from .interactive import interactive_shell
 from .inventory import Inventory
 
@@ -34,7 +34,7 @@ class PyscCLI():
             sys.exit(1)
 
         try:
-            self.pwddb = pykeepass.PyKeePass(
+            self.pwddb = Credentials(
                 self.config.keepass_db_file,
                 keyfile=self.config.keepass_key_file
             )
@@ -56,7 +56,7 @@ class PyscCLI():
             print(host)
 
     def list_credentials(self) -> List:
-        for entry in self.pwddb.entries:
+        for entry in self.pwddb:
             print(entry)
 
     def connect(self, target_host, session_log=None):
@@ -65,10 +65,7 @@ class PyscCLI():
         if not connection_config:
             sys.exit(1)
 
-        credentials = self.pwddb.find_entries_by_title(
-            connection_config['credentials'],
-            first=True
-        )
+        credentials = self.pwddb.get(connection_config['credentials'])
         if not credentials:
             console_logger.error(
                 'Credentials "{}" not found'.format(
