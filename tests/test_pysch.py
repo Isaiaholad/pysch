@@ -6,6 +6,12 @@ import pytest
 
 class TestCli():
 
+    def test_cli_init(self):
+        runner = CliRunner()
+        result = runner.invoke(cli.cli, ['init'])
+        assert result.exit_code == 0
+        assert "Default configuration has been saved at" in result.output
+
     def test_cli_command_list(self):
         runner = CliRunner()
         result = runner.invoke(cli.cli)
