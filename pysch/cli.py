@@ -24,6 +24,8 @@ from .common import (
 )
 
 from .pysch_cli import PyscCLI
+from .config import Config
+from .credentials import Credentials
 
 console_logger = logging.getLogger('console_logger')
 logger = logging.getLogger(__name__)
@@ -178,3 +180,26 @@ def list_hosts(ctx):
 def list_credentials(ctx):
     click.echo('Available credentials:')
     PyscCLI(config_file=ctx.obj['CONFIG']).list_credentials()
+
+
+@cli.command(help='Add new credendials')
+@click.option('--title', '-t', prompt=True)
+@click.option('--username', '-u', prompt=True)
+@click.option('--password', '-p',
+              prompt=True,
+              hide_input=True,
+              confirmation_prompt=True)
+@click.pass_context
+def add_credentials(ctx, title, username, password):
+    cfg = Config(ctx.obj['CONFIG'])
+    pwddb = Credentials(
+        cfg.keepass_db_file,
+        keyfile=cfg.keepass_key_file
+    )
+    try:
+        pwddb.add(title, username, password)
+    except ValueError:
+        console_logger.error(
+            'Entry "{}" already exists in the root group'.format(title))
+        sys.exit(1)
+    click.echo('"{}" entry has been added to the keepass db'.format(title))
