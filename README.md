@@ -1,6 +1,6 @@
-# pysch - Python-made SSH Connection Helper
+# pysch - Python-made SSH Connection Manager
 
-`pysch` (spelled in Russian as пыщ, just for fun) is an SSH Client based on paramiko for Mac and Linux. It uses keepass to securely store remote hosts credentials and YAML to maintain inventory tree. It also supports session logging to a file.
+`pysch` (spelled in Russian as пыщ, just for fun), **Py**thon-made **S**SH **C**onnection **H**elper, is an SSH Client based on [paramiko](https://github.com/paramiko/paramiko) for Mac and Linux. It uses keepass to securely store remote hosts credentials and YAML to maintain inventory tree. It also supports session logging to a file.
 
 ## Installation 
 Just use `pip` to install `pysch`: 
