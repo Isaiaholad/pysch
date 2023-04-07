@@ -102,6 +102,9 @@ class PyscCLI():
                 connection_config['hostname']
             ))
             sys.exit(1)
+        except paramiko.ssh_exception.AuthenticationException:
+            console_logger.error('Authentication failed!')
+            sys.exit(1)
 
         t = client.get_transport()
         channel = t.open_session()
